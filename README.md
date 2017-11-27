@@ -19,13 +19,13 @@ wencai是i问财的策略回测接口的Pythonic工具包，满足量化爱好�
 
 ### Upgrade
 
-```python 
+```shell
 pip install wencai --upgrade
 ```
 
 ### Quick Start
 
-**Example 1.**获取回测分析
+**Example 1**.获取回测分析
 
 ```python
 import wencai as wc
@@ -39,7 +39,7 @@ print(report)
 
 
 
-**Example 2.** 获取策略
+**Example 2**. 获取策略
 
 ```python
 import wencai as wc
@@ -54,7 +54,7 @@ print(strategy)
 
 
 
-**Example 3.**历史交易查询
+**Example 3**.历史交易查询
 
 ```python
 import wencai as wc
