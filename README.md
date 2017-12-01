@@ -95,3 +95,6 @@ print(transaction)
 ### 0.1.3 2017/11/27
 
 - 创建第一个版本
+
+### Others
+Welcome to Star and Follow~
