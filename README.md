@@ -23,6 +23,10 @@ wencai是i问财的策略回测接口的Pythonic工具包，满足量化爱好�
 pip install wencai --upgrade
 ```
 
+### API
+
+具体API接口请点击这里：[Wiki](https://github.com/GraySilver/wencai-master/wiki/API)
+
 ### Quick Start
 
 **Example 1**.获取回测分析
