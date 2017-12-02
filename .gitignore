@@ -1,0 +1,16 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea
+.vscode
+__pycache__/
+.__pycache__/
+logs
+celerybeat-schedule.db
+.env
+local_settings.py
+migrations/
+*.pyc
+.cache/
+*/.cache/
+test/temp/
+baidu-api.ini
+connection.py
