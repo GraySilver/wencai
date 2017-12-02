@@ -4,41 +4,38 @@ from wencai.utils.template import classMailer
 
 
 def get_scrape_transaction(query,stime=None,etime=None,hold_for=3,stockHoldCount=2,
-                           fallIncome=6,lowerIncome=10,upperIncome=6,fell=0.001):
+                           fallIncome=6,lowerIncome=10,upperIncome=6):
     wencai = Wencai(stime=stime,
                     etime=etime,
                     hold_for=hold_for,
                     stockHoldCount=stockHoldCount,
                     fallIncome=fallIncome,
                     lowerIncome=lowerIncome,
-                    upperIncome=upperIncome,
-                    fell=fell)
+                    upperIncome=upperIncome)
 
     return wencai.scrape_transaction(query)
 
 
 def get_strategy(query,stime=None,etime=None,hold_for=3,stockHoldCount=2,
-                           fallIncome=6,lowerIncome=10,upperIncome=6,fell=0.001):
+                           fallIncome=6,lowerIncome=10,upperIncome=6):
     wencai = Wencai(hold_for=hold_for,
                     stime=stime,
                     etime=etime,
                     upperIncome=upperIncome,
                     lowerIncome=lowerIncome,
                     fallIncome=fallIncome,
-                    stockHoldCount=stockHoldCount,
-                    fell=fell)
+                    stockHoldCount=stockHoldCount)
     return wencai.strategy(query)
 
 def get_scrape_report(query,stime=None,etime=None,hold_for=3,stockHoldCount=2,
-                           fallIncome=6,lowerIncome=10,upperIncome=6,fell=0.001):
+                           fallIncome=6,lowerIncome=10,upperIncome=6):
     wencai = Wencai(stime=stime,
                     etime=etime,
                     hold_for=hold_for,
                     stockHoldCount=stockHoldCount,
                     fallIncome=fallIncome,
                     lowerIncome=lowerIncome,
-                    upperIncome=upperIncome,
-                    fell=fell)
+                    upperIncome=upperIncome)
     return wencai.scrape_report(query)
 
 

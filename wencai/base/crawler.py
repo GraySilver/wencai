@@ -62,13 +62,8 @@ class Wencai(object):
         else:
             self.upperIncome = 6
 
-        if 'fell' in params:
-            if isinstance(kwargs['fell'], float):
-                self.fell = kwargs['fell']
-            else:
-                raise ValueError(valueErrorString('fell', 'float'))
-        else:
-            self.fell = 0.001
+
+        self.fell = 0.001
 
         if 'fallIncome' in params:
             if isinstance(kwargs['fallIncome'], int):
