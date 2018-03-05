@@ -6,7 +6,9 @@
 WENCAI_URL = {
     "scrape_transaction":'http://www.iwencai.com/traceback/strategy/transaction',
     "scrape_report":'http://www.iwencai.com/traceback/strategy/submit',
-    'strategy':'http://www.iwencai.com/traceback/strategy/submit'
+    'strategy':'http://www.iwencai.com/traceback/strategy/submit',
+    "search":"http://www.iwencai.com/data-robot/extract-new",
+    'recommend_strategy':'http://www.iwencai.com/traceback/list/get-strategy',
 }
 
 WENCAI_ENGLISH_CHINESE = {
@@ -38,5 +40,11 @@ WENCAI_ENGLISH_CHINESE = {
     'totalTradeTimes':'总交易天数',
     'averageIncome':'平均涨跌幅',
     'averageLossRatio':'平均损失比率',
-    'daySaleStrategy':'策略持有期'
+    'daySaleStrategy':'策略持有期',
+    'month_profit':'月收益',
+    'create_time':'创建时间',
+    'query':'策略',
+    'maxWinRate':'最大胜率',
+    'maxAnnualYield':'最大年化收益率',
+    'id':'策略ID'
 }

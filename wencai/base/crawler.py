@@ -132,30 +132,30 @@ class Wencai(object):
             'fallIncome': self.fallIncome,
             'stockHoldCount': self.stockHoldCount
         }
-        # try:
-        response = self.session.post(WENCAI_URL['strategy'], data=payload)
-        sleep(1)
-        json_data = response.json()
-        # print(json_data)
-        if json_data['success'] == True:
-            data = json_data['data']['stockData']['list']
-            if response.status_code != 200 or 'data' not in data.keys():
-                return pd.DataFrame()
+        try:
+            response = self.session.post(WENCAI_URL['strategy'], data=payload)
+            sleep(1)
+            json_data = response.json()
+            # print(json_data)
+            if json_data['success'] == True:
+                data = json_data['data']['stockData']['list']
+                if response.status_code != 200 or 'data' not in data.keys():
+                    return pd.DataFrame()
+                else:
+                    data = data['data']
+                    df = pd.DataFrame().from_dict(data)
+                    del df['__code']
+                    df['date'] = str(dt.date.today())
+                    columns = ['date', 'code', 'codeName', 'zdf', 'spj', 'dde', 'gbgm', 'hsl']
+                    columnsCn = {u:WENCAI_ENGLISH_CHINESE[u] for u in columns}
+                    return df.ix[:, columns].rename(columns=columnsCn).reset_index(drop=True)
             else:
-                data = data['data']
-                df = pd.DataFrame().from_dict(data)
-                del df['__code']
-                df['date'] = str(dt.date.today())
-                columns = ['date', 'code', 'codeName', 'zdf', 'spj', 'dde', 'gbgm', 'hsl']
-                columnsCn = {u:WENCAI_ENGLISH_CHINESE[u] for u in columns}
-                return df.ix[:, columns].rename(columns=columnsCn).reset_index(drop=True)
-        else:
-            print('Response is false,Please try again')
+                print('Response is false,Please try again')
 
-        # except Exception as e:
-        #     logging.exception(e)
-        #     print(e)
-        #     return
+        except Exception as e:
+            logging.exception(e)
+            print(e)
+            return
 
     # 报告评级
     def scrape_report(self, query):
@@ -195,6 +195,34 @@ class Wencai(object):
             logging.exception(e)
             return
 
+    def recommend_strategy(self):
+        """
+        sort:{winRate:成功率,hot:热度,profit:年化收益率,gain:本月收益}"
+        :return: 
+        """
+        payload = {
+            'type': 'income',
+            'sort': "profit",
+            "perpage":10,
+            "keyword2":"",
+            "p":1,
+        }
+        response = self.session.get(WENCAI_URL['recommend_strategy'],params=payload)
+        sleep(1)
+        json_data = response.json()['data']['list']
+        # 最大预期年化收益率: annual_yield, 最大成功率: win_rate
+        recommend = [{  "query":j['query'],
+                        "month_profit":j['month_profit'],
+                        "maxAnnualYield":j['maxAnnualYield'],
+                        "maxWinRate":j['maxWinRate'],
+                        "create_time":j['create_time'],
+                        "id":j['id'],}
+                     for j in json_data]
+
+        df = pd.DataFrame().from_dict(recommend)
+        columns = ['id','query','month_profit','maxWinRate','maxAnnualYield','create_time']
+        columnsCn = {u: WENCAI_ENGLISH_CHINESE[u] for u in columns}
+        return df.ix[:, columns].rename(columns=columnsCn).reset_index(drop=True)
 def valueErrorString(x,ktype):
     return '{} format is {}'.format(x,ktype)
 
@@ -205,5 +233,7 @@ if __name__ == '__main__':
     data = event.scrape_report('跳空高开,平台突破,非涨停,股价大于ma120,ma30ma120ma250上移,股价大于前30日最高价,非银行版块')
     print(data)
 
+    # data = event.recommend_strategy()
+    # print(data)
 
 
