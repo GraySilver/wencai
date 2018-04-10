@@ -4,12 +4,6 @@ import requests
 
 
 class Session:
-
-    # headers = {
-    #     'X-Requested-With': 'XMLHttpRequest',
-    #     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36',
-    # }
-
     headers = {
 
         "Accept":"application/json,text/javascript,*/*;q=0.01",
@@ -25,18 +19,16 @@ class Session:
         'User-Agent':"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36",
         'X-Requested-With':"XMLHttpRequest"
 
-
-
     }
 
+
+    def __init__(self,cookies):
+        self.cookies = cookies
 
     def __call__(self):
         self.session = requests.Session()
         self.session.headers.update(Session.headers)
-        self.session.headers['hexin-v'] = 'AqfarMhOsYKxkDUOHdw-koUdP9pxLHsO1QD_gnkUwzZdaMkKgfwLXuXQj9eJ'
-        # with open(os.path.dirname(os.path.dirname(__file__))+'/utils/v.txt','r') as f:
-        #     self.session.headers['hexin-v'] = f.read()
-            # f.read()
+        self.session.headers['hexin-v'] = self.cookies
 
         return self.session
 

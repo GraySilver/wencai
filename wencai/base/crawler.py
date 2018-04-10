@@ -11,13 +11,21 @@ pd.set_option('display.width',2000)
 
 class Wencai(object):
     logging.basicConfig(
-        level=logging.INFO,
+        level=logging.WARNING,
         format='%(asctime)s [%(levelname)s] %(message)s',
     )
 
     def __init__(self,*args,**kwargs):
-        self.session = Session()()
         params = kwargs.keys()
+
+        # todo if you need to alter default cookies,alter it.
+        if 'cookies' in params and kwargs['cookies'] !='':
+            self.cookies = kwargs['cookies']
+        else:
+            self.cookies = 'AqfarMhOsYKxkDUOHdw-koUdP9pxLHsO1QD_gnkUwzZdaMkKgfwLXuXQj9eJ'
+
+        self.session = Session(cookies=self.cookies)()
+
         if 'stime' in params and kwargs['stime'] !=None:
 
             self.stime = kwargs['stime']
@@ -223,17 +231,11 @@ class Wencai(object):
         columns = ['id','query','month_profit','maxWinRate','maxAnnualYield','create_time']
         columnsCn = {u: WENCAI_ENGLISH_CHINESE[u] for u in columns}
         return df.ix[:, columns].rename(columns=columnsCn).reset_index(drop=True)
+
 def valueErrorString(x,ktype):
     return '{} format is {}'.format(x,ktype)
 
 
 
-if __name__ == '__main__':
-    event = Wencai()
-    data = event.scrape_report('跳空高开,平台突破,非涨停,股价大于ma120,ma30ma120ma250上移,股价大于前30日最高价,非银行版块')
-    print(data)
-
-    # data = event.recommend_strategy()
-    # print(data)
 
 
