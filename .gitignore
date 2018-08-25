@@ -14,3 +14,4 @@ migrations/
 test/temp/
 baidu-api.ini
 connection.py
+*/__pycache__/*
