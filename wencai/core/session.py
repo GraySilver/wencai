@@ -28,7 +28,6 @@ class Session(requests.Session):
                 self.headers[k] = v
 
     def get_driver(self, url, execute_path=None, is_headless=True):
-
         driver = None
         try:
             chrome_options = Options()
@@ -42,6 +41,7 @@ class Session(requests.Session):
             driver.get(url)
             return driver.page_source
         except Exception as e:
-            print(e)
+            raise IOError(e)
         finally:
-            driver.quit()
+            if driver is not None:
+                driver.quit()
