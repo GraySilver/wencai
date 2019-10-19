@@ -21,5 +21,6 @@ venv
 __pycache__/
 wencai.egg-info/
 dist/
+build/
 
 

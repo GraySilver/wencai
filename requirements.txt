@@ -1,4 +1,4 @@
 requests>=2.14.2
 pandas==0.18.1
 beautifulsoup4>=4.5.1
-selenium
+selenium==3.141
