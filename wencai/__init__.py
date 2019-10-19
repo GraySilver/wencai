@@ -3,7 +3,7 @@ import sys
 import os
 __author__ = 'allen yang'
 __version__ = '0.1.1'
-from wencai.core.event import (get_backtest,
+from wencai.core.event import (get_scrape_report,
                                set_variable,
-                               get_yieldbacktest,
-                               get_eventbacktest)
+                               get_strategy,
+                               get_event_evaluate)

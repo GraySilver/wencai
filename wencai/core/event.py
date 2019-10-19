@@ -14,19 +14,20 @@ def set_variable(execute_path=None, cn_col=False):
     return execute_path
 
 
-def get_backtest(query, start_date, end_date, period, benchmark):
+def get_scrape_report(query, start_date, end_date, period, benchmark):
     return Wencai(execute_path=globals()['global_execute_path'], cn_col=globals()['global_cn_col']).backtest(
         query=query, start_date=start_date, end_date=end_date, period=period, benchmark=benchmark
     )
 
 
-def get_yieldbacktest(query, start_date, end_date, stock_hold, upper_income, lower_income, period, fall_income,
-                      day_buy_stock_num):
+def get_strategy(query, start_date, end_date, stock_hold, upper_income, lower_income, period, fall_income,
+                 day_buy_stock_num):
     return Wencai(execute_path=globals()['global_execute_path'], cn_col=globals()['global_cn_col']).yieldbacktest(
         query=query, start_date=start_date, end_date=end_date, period=period, fall_income=fall_income,
         day_buy_stock_num=day_buy_stock_num, upper_income=upper_income, lower_income=lower_income, stock_hold=stock_hold
     )
 
-def get_eventbacktest(query,start_date,end_date,period,index_code):
+
+def get_event_evaluate(query, start_date, end_date, period, index_code):
     return Wencai(execute_path=globals()['global_execute_path'], cn_col=globals()['global_cn_col']).eventbacktest(
-        query=query, start_date=start_date, end_date=end_date, period=period,index_code=index_code)
+        query=query, start_date=start_date, end_date=end_date, period=period, index_code=index_code)
