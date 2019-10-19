@@ -203,3 +203,36 @@ class YieldBackTest:
         if self.cn_col:
             data = data.rename(columns=_)
         return data
+
+
+class EventBackTest:
+    def __init__(self, content, cn_col):
+        self.cn_col = cn_col
+        self.content = content['result']
+
+    @property
+    def event_list(self):
+        data = self.content['data']
+        data = pd.DataFrame().from_dict(data)
+
+        _ = {
+            '1day': '次日涨跌幅',
+            'date': '事件日期',
+            'index_code': '涉及标的'
+        }
+        if self.cn_col:
+            data = data.rename(columns=_)
+        return data
+
+    @property
+    def report_data(self):
+        data = self.content['reportData']
+        _ = {
+            'maxChangeRate': '最大上涨概率',
+            'maxTotalCount': '历史发生次数',
+            'maxWinRate': '最优平均涨跌幅'
+        }
+
+        if self.cn_col:
+            data = {_[k]: v for k, v in data.items()}
+        return data

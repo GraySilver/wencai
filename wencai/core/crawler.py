@@ -4,7 +4,7 @@ import datetime as dt
 from time import sleep
 import pandas as pd
 from wencai.core.cons import WENCAI_CRAWLER_URL, WENCAI_HEADERS
-from wencai.core.content import BackTest, YieldBackTest
+from wencai.core.content import BackTest, YieldBackTest, EventBackTest
 from wencai.core.cookies import WencaiCookie
 from wencai.core.session import Session
 
@@ -59,5 +59,21 @@ class Wencai(object):
         if r.status_code == 200:
             return YieldBackTest(content=r.json(), cn_col=self.cn_col, query=query, hexin_v=henxin_v,
                                  execute_path=self.execute_path,start_date=start_date,end_date=end_date)
+        else:
+            raise Exception(r.content.decode('utf-8'))
+
+    def eventbacktest(self,query,index_code,period,start_date,end_date):
+        payload = {
+            "query": query,
+            "start_date": start_date,
+            "end_date": end_date,
+            "period": period,
+            "index_code":index_code
+        }
+        henxin_v = self.obj_cookie.getHexinVByJson(source='backtest')
+        session = Session(update_headers=WENCAI_HEADERS['backtest'], hexin_v=henxin_v)
+        r = session.post(WENCAI_CRAWLER_URL['eventbacktest'], data=payload)
+        if r.status_code == 200:
+            return EventBackTest(content=r.json(),cn_col=self.cn_col)
         else:
             raise Exception(r.content.decode('utf-8'))

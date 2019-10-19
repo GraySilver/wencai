@@ -16,7 +16,8 @@ WENCAI_CRAWLER_URL = {
     "backtest": "http://backtest.10jqka.com.cn/backtestonce/backtest",
     "yieldbacktest": "http://backtest.10jqka.com.cn/tradebacktest/yieldbacktest",
     "history_pick": 'http://backtest.10jqka.com.cn/tradebacktest/historypick?\
-                    query={query}&hold_num={hold_num}&trade_date={trade_date}'
+                    query={query}&hold_num={hold_num}&trade_date={trade_date}',
+    'eventbacktest':'http://backtest.10jqka.com.cn/eventbacktest/backtest',
 
 }
 
