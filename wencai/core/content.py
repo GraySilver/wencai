@@ -4,6 +4,8 @@ import pandas as pd
 from wencai.core.session import Session
 from wencai.core.cons import WENCAI_CRAWLER_URL
 
+pd.set_option('display.max_rows', 2000)
+
 
 class BackTest:
 
@@ -80,4 +82,70 @@ class BackTest:
         }
         if self.cn_col:
             data = data.rename(columns=_)
+        return data
+
+
+class YieldBackTest:
+    def __init__(self, content, cn_col):
+        self.content = content['result']
+        self.cn_col = cn_col
+
+    @property
+    def profit_data(self):
+        hq300_data = self.content['Hq300Data']
+        profit_data = self.content['profitData'][0]
+        hq300_data = [{'date': i['timestamp'], 'benchmark_value': i['value']} for i in hq300_data]
+        profit_data = [{'date': i[0], 'profit_value': i[1]} for i in profit_data['everydayIncome']]
+        hq300_data = pd.DataFrame().from_dict(hq300_data)
+        profit_data = pd.DataFrame().from_dict(profit_data)
+        profit_data = pd.merge(left=hq300_data, right=profit_data, how='left', on='date')
+        profit_data = profit_data.ix[:, ['date', 'benchmark_value', 'profit_value']]
+        return profit_data
+
+    @property
+    def condition_data(self):
+        return self.content['conditionData']
+
+    @property
+    def backtest_data(self):
+        data = self.content['backtestData'][0]
+        if 'profitVolatility' in data:
+            del data['profitVolatility']
+
+        _ = {
+            'annualYield': '预期年化收益率',
+            'averageIncome': '单次收益平均值',
+            'averageLossRatio': '盈亏比',
+            'daySaleStrategy': '持有期',
+            'maxDrawDown': '最大回撤',
+            'maxIncome': '单次最大收益值',
+            'minIncome': '单次收益最小值',
+            'profitVolatility': '',
+            'sharpeRatio': '夏普比率',
+            'totalTradeTimes': '交易次数',
+            'weekWinRate': '周战胜率',
+            'winRate': '成功率'
+        }
+        if self.cn_col:
+            data = {_[k]: v for k, v in data.items()}
+        return data
+
+    @property
+    def score_data(self):
+        data = self.content['scoreData']
+        _ = {
+            'annualYield':'绝对收益',
+            'maxDrawDown':'抗风险能力',
+            'profitVolatility':'稳定性',
+            'score':'综合得分',
+            'winRate':'选股能力',
+            'averageLossRatio':'盈利能力',
+            'rank':'排名'
+        }
+        for i in ['date','count']:
+            if i in data:
+                del data[i]
+
+        if self.cn_col:
+            data = {_[k]: v for k, v in data.items()}
         return data

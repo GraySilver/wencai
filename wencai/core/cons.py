@@ -13,7 +13,8 @@ WENCAI_LOGIN_URL = {
 WENCAI_CRAWLER_URL = {
     'history_detail': 'http://backtest.10jqka.com.cn/backtestonce/historydetail?\
                  sort_by=desc&id={backtest_id}&start_date={start_date}&end_date={end_date}&period={period}',
-    "backtest": "http://backtest.10jqka.com.cn/backtestonce/backtest"
+    "backtest": "http://backtest.10jqka.com.cn/backtestonce/backtest",
+    "yieldbacktest": "http://backtest.10jqka.com.cn/tradebacktest/yieldbacktest",
 }
 
 WENCAI_HEADERS = {
