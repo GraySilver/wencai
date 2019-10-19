@@ -7,12 +7,13 @@ from wencai.base.cons import WENCAI_URL
 from selenium.webdriver.chrome.options import Options
 
 
-def getHeXinVByHttp(source, execute_path=None):
+def getHeXinVByHttp(source, execute_path=None,is_headless=True,):
     driver = None
     try:
         chrome_options = Options()
-        # chrome_options.add_argument('--headless')
-        # chrome_options.add_argument('--disable-gpu')
+        if is_headless:
+            chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--disable-gpu')
         if execute_path is None:
             driver = webdriver.Chrome(chrome_options=chrome_options)
         else:
