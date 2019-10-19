@@ -24,4 +24,3 @@ WENCAI_HEADERS = {
     }
 
 }
-"test"
