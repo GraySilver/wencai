@@ -155,7 +155,7 @@ class YieldBackTest:
             data = {_[k]: v for k, v in data.items()}
         return data
 
-    def history_pick(self, trade_date, hold_num):
+    def history_pick(self, trade_date, hold_num=1):
         url = WENCAI_CRAWLER_URL['history_pick'].format(trade_date=trade_date, hold_num=hold_num, query=self.query)
         context = Session().get_driver(url, execute_path=self.execute_path)
         context = re.findall('{"result":(.*?),"errorcode":0,"errormsg":""}', context)[0]
