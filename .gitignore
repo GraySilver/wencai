@@ -16,3 +16,10 @@ baidu-api.ini
 connection.py
 */__pycache__
 
+
+venv
+__pycache__/
+wencai.egg-info/
+dist/
+
+

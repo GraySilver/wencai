@@ -8,5 +8,4 @@ __version__ = '0.1.0'
 
 from .base.event import (get_scrape_report,
                         get_scrape_transaction,
-                        get_strategy,
-                         send_email)
+                        get_strategy)

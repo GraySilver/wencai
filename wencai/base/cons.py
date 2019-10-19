@@ -9,6 +9,7 @@ WENCAI_URL = {
     'strategy':'http://www.iwencai.com/traceback/strategy/submit',
     "search":"http://www.iwencai.com/data-robot/extract-new",
     'recommend_strategy':'http://www.iwencai.com/traceback/list/get-strategy',
+    'backtest':'http://backtest.10jqka.com.cn/backtest/app.html#/backtest'
 }
 
 WENCAI_ENGLISH_CHINESE = {
