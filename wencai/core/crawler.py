@@ -40,7 +40,7 @@ class Wencai(object):
         else:
             raise Exception(r.content.decode('utf-8'))
 
-    def yieldbacktest(self,query,start_date,end_date,stock_hold,upper_income,lower_income,period,fall_income,
+    def yieldbacktest(self, query, start_date, end_date, stock_hold, upper_income, lower_income, period, fall_income,
                       day_buy_stock_num):
         payload = {
             "query": query,
@@ -48,15 +48,16 @@ class Wencai(object):
             "end_date": end_date,
             "period": period,
             "stock_hold": stock_hold,
-            "upper_income":upper_income,
-            "lower_income":lower_income,
-            "fall_income":fall_income,
-            "day_buy_stock_num":day_buy_stock_num
+            "upper_income": upper_income,
+            "lower_income": lower_income,
+            "fall_income": fall_income,
+            "day_buy_stock_num": day_buy_stock_num
         }
         henxin_v = self.obj_cookie.getHexinVByJson(source='backtest')
         session = Session(update_headers=WENCAI_HEADERS['backtest'], hexin_v=henxin_v)
         r = session.post(WENCAI_CRAWLER_URL['yieldbacktest'], data=payload)
         if r.status_code == 200:
-            return YieldBackTest(content=r.json(),cn_col=self.cn_col)
+            return YieldBackTest(content=r.json(), cn_col=self.cn_col, query=query, hexin_v=henxin_v,
+                                 execute_path=self.execute_path,start_date=start_date,end_date=end_date)
         else:
             raise Exception(r.content.decode('utf-8'))

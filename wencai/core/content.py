@@ -86,9 +86,14 @@ class BackTest:
 
 
 class YieldBackTest:
-    def __init__(self, content, cn_col):
+    def __init__(self, content, cn_col, query, hexin_v, execute_path, start_date, end_date):
         self.content = content['result']
         self.cn_col = cn_col
+        self.query = query
+        self.hexin_v = hexin_v
+        self.execute_path = execute_path
+        self.start_date = start_date
+        self.end_date = end_date
 
     @property
     def profit_data(self):
@@ -134,18 +139,67 @@ class YieldBackTest:
     def score_data(self):
         data = self.content['scoreData']
         _ = {
-            'annualYield':'绝对收益',
-            'maxDrawDown':'抗风险能力',
-            'profitVolatility':'稳定性',
-            'score':'综合得分',
-            'winRate':'选股能力',
-            'averageLossRatio':'盈利能力',
-            'rank':'排名'
+            'annualYield': '绝对收益',
+            'maxDrawDown': '抗风险能力',
+            'profitVolatility': '稳定性',
+            'score': '综合得分',
+            'winRate': '选股能力',
+            'averageLossRatio': '盈利能力',
+            'rank': '排名'
         }
-        for i in ['date','count']:
+        for i in ['date', 'count']:
             if i in data:
                 del data[i]
 
         if self.cn_col:
             data = {_[k]: v for k, v in data.items()}
+        return data
+
+    def history_pick(self, trade_date, hold_num):
+        url = WENCAI_CRAWLER_URL['history_pick'].format(trade_date=trade_date, hold_num=hold_num, query=self.query)
+        context = Session().get_driver(url, execute_path=self.execute_path)
+        context = re.findall('{"result":(.*?),"errorcode":0,"errormsg":""}', context)[0]
+        data = json.loads(context)['stocks']
+        data = pd.DataFrame().from_dict(data)
+
+        _ = {
+            'change_rate': '涨跌幅',
+            'close_price': '当日收盘价（元)',
+            'dde': 'dde大单净量（%）',
+            "equit_scale": "股本规模",
+            "turnover_rate": "换手率",
+            "stock_code": "股票代码",
+            "stock_market": "股票市场",
+            "stock_name": "股票名称",
+        }
+        if self.cn_col:
+            data = data.rename(columns=_)
+        return data
+
+    def history_detail(self, period, start_date=None, end_date=None):
+
+        if start_date is None:
+            start_date = self.start_date
+
+        if end_date is None:
+            end_date = self.end_date
+
+        url = WENCAI_CRAWLER_URL['history_detail'].format(backtest_id=self.content['id'], start_date=start_date,
+                                                          end_date=end_date, period=period)
+        context = Session().get_driver(url, execute_path=self.execute_path)
+        context = re.findall('{"result":(.*?),"errorcode":0,"errormsg":""}', context)[0]
+        data = json.loads(context)
+        data = pd.DataFrame().from_dict(data)
+        _ = {
+            'stock_code': '股票代码',
+            'stock_name': '股票简称',
+            "start_date": "起始时间",
+            "end_date": "终止时间",
+            "start_price": "起始价",
+            "end_price": "终止价",
+            "change_rate": "区间涨跌幅",
+            "stock_market": "股票市场"
+        }
+        if self.cn_col:
+            data = data.rename(columns=_)
         return data
