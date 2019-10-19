@@ -12,7 +12,7 @@ def set_execute_path(execute_path=None):
     return execute_path
 
 
-def set_cn_col(cn_col=False):
+def set_cn(cn_col=False):
     global global_cn_col
     global_cn_col = cn_col
     return cn_col
