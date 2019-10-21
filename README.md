@@ -23,7 +23,7 @@ wencai==0.2.0
 - selenium==3.141
 
 ### Special
-问财API目前需要接入chrome和chromedriver配合使用，请下载chrome和对应的chromedriver版本。
+问财API目前需要接入chrome和chromedriver配合使用，请下载[chrome](https://www.google.cn/intl/zh-CN/chrome/)和对应的[chromedriver](https://npm.taobao.org/mirrors/chromedriver/)版本。
 
 ### Installation
 
