@@ -22,6 +22,9 @@ wencai==0.2.0
 - beautifulsoup4>=4.5.1
 - selenium==3.141
 
+### Special
+问财API目前需要接入chrome和chromedriver配合使用，请下载chrome和对应的chromedriver版本。
+
 ### Installation
 
 - 方式1：pip install wencai
