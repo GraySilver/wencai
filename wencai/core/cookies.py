@@ -35,7 +35,8 @@ class WencaiCookie:
         except Exception as e:
             print(e)
         finally:
-            driver.quit()
+            if driver is not None:
+                driver.quit()
 
     def getHexinVByJson(self, source):
         json_path = os.path.dirname(__file__)+'/cookies.json'
