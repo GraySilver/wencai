@@ -23,7 +23,7 @@ wencai==0.2.0
 - selenium==3.141
 
 ### Special
-问财API目前需要接入chrome和chromedriver配合使用，请下载[chrome](https://www.google.cn/intl/zh-CN/chrome/)和对应的[chromedriver](https://npm.taobao.org/mirrors/chromedriver/)版本。
+问财API目前需要接入chrome和chromedriver配合使用，请下载[chrome](https://www.google.cn/intl/zh-CN/chrome/)和对应的[chromedriver](https://npm.taobao.org/mirrors/chromedriver/)版本，尽量更新新版本确保可以使用。
 
 ### Installation
 
@@ -39,7 +39,7 @@ pip install wencai --upgrade
 
 ### API
 
-具体API接口请点击这里：[Wiki](https://github.com/GraySilver/wencai-master/wiki/API)**（暂未更新）**
+具体API接口请点击这里：[Wiki](https://github.com/GraySilver/wencai/blob/master/API.md)**（暂未更新）**
 
 ### Quick Start
 
@@ -144,5 +144,7 @@ print(report.report_data)
 - 创建第一个版本
 
 ### Others
-This toolkit must not be used for any commercial purpose, only for hobby trading friends to share learning and technical discussions.Welcome to Star and Follow~
+此工具包不得用于任何商业目的，仅可用于爱好量化交易者分享学习和技术讨论。
+
+Welcome to Star and Follow~
 
