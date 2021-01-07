@@ -16,14 +16,15 @@ wencai==0.2.0
 
 ### Dependencies
 
-- Python 2.x/3.x
+- Python 2.x/3.x（当前测试使用Python3.5.5）
 - requests>=2.14.2
-- pandas==0.18.1
 - beautifulsoup4>=4.5.1
 - selenium==3.141
 
 ### Special
 问财API目前需要接入chrome和chromedriver配合使用，请下载[chrome](https://www.google.cn/intl/zh-CN/chrome/)和对应的[chromedriver](https://npm.taobao.org/mirrors/chromedriver/)版本，尽量更新新版本确保可以使用。
+
+*目前我测试用的chrome_driver对应的是chrome版本是87.0.4280.88，各位按自己实际情况配合chrome和chromedriver版本*
 
 ### Installation
 
@@ -131,6 +132,11 @@ print(report.report_data)
 >5    0.00580  20190515  上证指数
 
 ### Change Logs
+
+### 0.2.0 2021/01/07
+
+- 正常测试接口是否可用；
+- 补充说明调用逻辑。
 
 ### 0.2.0 2019/10/19
 

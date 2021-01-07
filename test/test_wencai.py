@@ -5,7 +5,7 @@ import wencai as wc
 class TestWenCai(unittest.TestCase):
 
     def setUp(self) -> None:
-        wc.set_variable(cn_col=True, execute_path='/Users/allen/Downloads/chromedriver')
+        wc.set_variable(cn_col=True, execute_path='./chromedriver')
 
     def test_get_scrape_report(self):
         r = wc.get_scrape_report(query='上证指数上穿10日均线',
