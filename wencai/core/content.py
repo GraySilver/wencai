@@ -104,7 +104,7 @@ class YieldBackTest:
         hq300_data = pd.DataFrame().from_dict(hq300_data)
         profit_data = pd.DataFrame().from_dict(profit_data)
         profit_data = pd.merge(left=hq300_data, right=profit_data, how='left', on='date')
-        profit_data = profit_data.ix[:, ['date', 'benchmark_value', 'profit_value']]
+        profit_data = profit_data.loc[:, ['date', 'benchmark_value', 'profit_value']]
         return profit_data
 
     @property
