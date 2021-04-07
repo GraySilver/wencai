@@ -10,6 +10,8 @@ pd.set_option('display.max_rows', 2000)
 class BackTest:
 
     def __init__(self, content, cn_col, execute_path, start_date, end_date):
+        if content['errorcode'] == 1:
+            raise ValueError(content['errormsg'])
         self.content = content['result']
         self.cn_col = cn_col
         self.execute_path = execute_path
@@ -64,8 +66,10 @@ class BackTest:
         if end_date is None:
             end_date = self.end_date
 
-        url = WENCAI_CRAWLER_URL['history_detail'].format(backtest_id=self.content['id'], start_date=start_date,
-                                                          end_date=end_date, period=period)
+        url = WENCAI_CRAWLER_URL['history_detail'].format(backtest_id=self.content['id'],
+                                                          start_date=start_date,
+                                                          end_date=str(end_date),
+                                                          period=str(period))
         context = Session().get_driver(url, execute_path=self.execute_path)
         context = re.findall('{"result":(.*?),"errorcode":0,"errormsg":""}', context)[0]
         data = json.loads(context)

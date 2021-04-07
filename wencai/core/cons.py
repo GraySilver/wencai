@@ -11,13 +11,11 @@ WENCAI_LOGIN_URL = {
 }
 
 WENCAI_CRAWLER_URL = {
-    'history_detail': 'http://backtest.10jqka.com.cn/tradebacktest/historydetail?\
-                 sort_by=desc&id={backtest_id}&start_date={start_date}&end_date={end_date}&period={period}',
+    'history_detail': 'http://backtest.10jqka.com.cn/backtestonce/historydetail?sort_by=desc&id={backtest_id}&start_date={start_date}&end_date={end_date}&period={period}',
     "backtest": "http://backtest.10jqka.com.cn/backtestonce/backtest",
     "yieldbacktest": "http://backtest.10jqka.com.cn/tradebacktest/yieldbacktest",
-    "history_pick": 'http://backtest.10jqka.com.cn/tradebacktest/historypick?\
-                    query={query}&hold_num={hold_num}&trade_date={trade_date}',
-    'eventbacktest':'http://backtest.10jqka.com.cn/eventbacktest/backtest',
+    "history_pick": 'http://backtest.10jqka.com.cn/tradebacktest/historypick?query={query}&hold_num={hold_num}&trade_date={trade_date}',
+    'eventbacktest': 'http://backtest.10jqka.com.cn/eventbacktest/backtest',
 
 }
 
