@@ -1,6 +1,6 @@
 # wencai
 
-[![PyPi Version](https://img.shields.io/pypi/v/wencai.svg)](https://pypi.org/project/wencai/)[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![PyPi Version](https://img.shields.io/pypi/v/wencai.svg)](https://pypi.org/project/wencai/)[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)[![Linux](https://travis-ci.com/GraySilver/wencai.svg?branch=master)](https://travis-ci.org/GraySilver/wencai) 
 
 wencai是i问财的策略回测接口的Pythonic工具包，满足量化爱好者和数据分析师在量化方面的需求。
 
