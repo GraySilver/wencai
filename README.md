@@ -1,5 +1,7 @@
 # wencai
 
+[![PyPi Version](https://img.shields.io/pypi/v/wencai.svg)](https://pypi.org/project/wencai/)[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 wencai是i问财的策略回测接口的Pythonic工具包，满足量化爱好者和数据分析师在量化方面的需求。
 
 [i问财](http://www.iwencai.net/)是同花顺旗下专业的机器人智能选股问答平台,致力于为投资者提供宏观数据、新闻资讯、A股、港美股、新三板、基金等各类理财方案。
@@ -11,7 +13,7 @@ wencai是i问财的策略回测接口的Pythonic工具包，满足量化爱好�
 ### Latest Version
 
 ```
-wencai==0.2.1
+wencai==0.2.2
 ```
 
 ### Dependencies
