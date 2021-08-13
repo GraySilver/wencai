@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 import requests
+import random
 from wencai.core.cookies import WencaiCookie
 
 
@@ -15,9 +16,16 @@ class Session(requests.Session):
 
     }
 
-    def __init__(self):
+    def __init__(self, proxies=None, verify=False):
         requests.Session.__init__(self)
         self.headers.update(Session.headers)
+        if proxies is not None:
+            if not isinstance(proxies, (list, dict)):
+                raise TypeError('proxies should be list or dict')
+            if isinstance(proxies, list):
+                proxies = random.choice(proxies)
+        self.proxies = proxies
+        self.verify = verify
 
     def update_headers(self, source, add_headers, force_cookies=False):
         if force_cookies:
@@ -32,8 +40,15 @@ class Session(requests.Session):
 
     def get_result(self, url, source=None, force_cookies=False, add_headers=None, **kwargs):
         self.update_headers(add_headers=add_headers, source=source, force_cookies=force_cookies)
-        return super(Session, self).get(url=url, **kwargs)
+        if self.proxies is None:
+            return super(Session, self).get(url=url, **kwargs)
+        else:
+            return super(Session, self).get(url=url, proxies=self.proxies, verify=self.verify, **kwargs)
 
     def post_result(self, url, source=None, data=None, json=None, add_headers=None, force_cookies=False, **kwargs):
         self.update_headers(add_headers=add_headers, source=source, force_cookies=force_cookies)
-        return super(Session, self).post(url=url, data=data, json=json, **kwargs)
+        if self.proxies is None:
+            return super(Session, self).post(url=url, data=data, json=json, **kwargs)
+        else:
+            return super(Session, self).post(url=url, data=data, json=json, proxies=self.proxies, verify=self.verify,
+                                             **kwargs)

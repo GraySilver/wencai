@@ -2,7 +2,6 @@
 import logging
 import re
 import pandas as pd
-import datetime as dt
 from wencai.core.cons import WENCAI_CRAWLER_URL, WENCAI_HEADERS
 from wencai.core.content import BackTest, YieldBackTest, EventBackTest, LastJs
 from wencai.core.cookies import WencaiCookie
@@ -15,10 +14,10 @@ class Wencai(object):
         format='%(asctime)s [%(levelname)s] %(message)s',
     )
 
-    def __init__(self, cn_col=False):
+    def __init__(self, cn_col=False, proxies=None, verify=False):
         self.cookies = WencaiCookie()
         self.cn_col = cn_col
-        self.session = Session()
+        self.session = Session(proxies=proxies, verify=verify)
 
     def backtest(self, query, start_date, end_date, period, benchmark):
         payload = {
@@ -103,12 +102,14 @@ class Wencai(object):
         result = r.json()['data']['answer'][0]['txt'][0]['content']['components'][0]['data']['datas']
 
         def _re_str(x: str):
-            today = dt.date.today().strftime("%Y%m%d")
-            if today in x:
-                _re = re.findall('(.*):前复权', x)
-                if len(_re) >= 1:
-                    x = _re[-1]
-            return x.replace('[{}]'.format(today), '')
+            _re = re.findall('(.*):前复权', x)
+            if len(_re) >= 1:
+                x = _re[-1]
+            check_date = re.search(r"(\d{4}\d{1,2}\d{1,2})",x)
+            if check_date is not None:
+                return x.replace('[{}]'.format(check_date.group()), '')
+            else:
+                return x
 
         data = pd.DataFrame().from_dict(result)
         if not data.empty:

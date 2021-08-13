@@ -13,7 +13,7 @@ wencai是i问财的策略回测接口的Pythonic工具包，满足量化爱好�
 ### Latest Version
 
 ```
-wencai==0.2.4
+wencai==0.2.5
 ```
 
 ### Dependencies
@@ -159,13 +159,33 @@ print(result)
 >
 > 9    23.41   19325582.00  10.612   25.24   23.21   25.24   25.69  002741.SZ  光华科技
 
+**Example 5**.使用代理机制
+
+```python
+import wencai as wc
+
+# 多个代理池
+proxies = [{'http': 'http://localhost:1087', 'https': 'http://localhost:1087'},
+          {'http': 'http://localhost:1088', 'https': 'http://localhost:1088'}]
+
+# 单个代理池
+proxies = {'http': 'http://localhost:1087', 'https': 'http://localhost:1087'}
+
+wc.set_variable(cn_col=True, proxies=proxies)
+
+r = wc.search('当前热股')
+print(r)
+
+```
+
 ### Change Logs
 
-### 0.2.4 2021/08/13
+### 0.2.5 2021/08/13
 
 - 更新Cookies机制；
 - 新增分时数据接口。
 - 新增一键搜索(目前仅能获取首页内容)
+- 新增代理机制
 
 ### 0.2.2 2021/04/08
 

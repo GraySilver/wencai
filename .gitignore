@@ -24,4 +24,5 @@ dist/
 build/
 cookies.json
 zoo.txt
+upload.sh
 
