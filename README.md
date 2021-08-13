@@ -13,7 +13,7 @@ wencai是i问财的策略回测接口的Pythonic工具包，满足量化爱好�
 ### Latest Version
 
 ```
-wencai==0.2.3
+wencai==0.2.4
 ```
 
 ### Dependencies
