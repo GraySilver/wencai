@@ -1,12 +1,12 @@
 # -*- coding:utf-8 -*-
 import logging
+import re
 import pandas as pd
+import datetime as dt
 from wencai.core.cons import WENCAI_CRAWLER_URL, WENCAI_HEADERS
 from wencai.core.content import BackTest, YieldBackTest, EventBackTest, LastJs
 from wencai.core.cookies import WencaiCookie
 from wencai.core.session import Session
-
-pd.set_option('display.width', 2000)
 
 
 class Wencai(object):
@@ -82,3 +82,39 @@ class Wencai(object):
             return LastJs(content=r.text, code=code).get_data
         else:
             raise Exception(r.content.decode('utf-8'))
+
+    def search(self, query_string):
+
+        payload = {
+            "question": query_string,
+            "page": 1,
+            "perpage": 50,
+            "log_info": '{"input_type": "typewrite"}',
+            "source": "Ths_iwencai_Xuangu",
+            "version": 2.0,
+            "secondary_intent": "",
+            "query_area": "",
+            "block_list": "",
+            "add_info": '{"urp": {"scene": 1, "company": 1, "business": 1}, "contentType": "json", "searchInfo": true}'
+        }
+
+        r = self.session.post_result(url=WENCAI_CRAWLER_URL['search'],
+                                     data=payload, force_cookies=True)
+        result = r.json()['data']['answer'][0]['txt'][0]['content']['components'][0]['data']['datas']
+
+        def _re_str(x: str):
+            today = dt.date.today().strftime("%Y%m%d")
+            if today in x:
+                _re = re.findall('(.*):前复权', x)
+                if len(_re) >= 1:
+                    x = _re[-1]
+            return x.replace('[{}]'.format(today), '')
+
+        data = pd.DataFrame().from_dict(result)
+        if not data.empty:
+            columns = {i: _re_str(i) for i in data.columns}
+            data = data.rename(columns=columns)
+            for col in ['market_code', 'code', '关键词资讯', '涨跌幅']:
+                if col in data.columns:
+                    del data[col]
+        return data

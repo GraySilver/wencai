@@ -28,3 +28,6 @@ def get_event_evaluate(query, start_date, end_date, period, index_code):
 
 def get_lastjs(code):
     return Wencai(cn_col=globals()['global_cn_col']).lastjs(code)
+
+def search(query):
+    return Wencai().search(query_string=query)
