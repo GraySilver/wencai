@@ -13,7 +13,7 @@ wencai是i问财的策略回测接口的Pythonic工具包，满足量化爱好�
 ### Latest Version
 
 ```
-wencai==0.2.2
+wencai==0.2.3
 ```
 
 ### Dependencies
@@ -21,7 +21,7 @@ wencai==0.2.2
 - Python 2.x/3.x（当前测试使用Python3.5.5）
 - requests>=2.14.2
 - beautifulsoup4>=4.5.1
-- selenium==3.141
+- PyExecJS>=1.5.1
 
 ### Special
 问财API目前需要接入chrome和chromedriver配合使用，请下载[chrome](https://www.google.cn/intl/zh-CN/chrome/)和对应的[chromedriver](https://npm.taobao.org/mirrors/chromedriver/)版本，尽量更新新版本确保可以使用。
@@ -134,6 +134,11 @@ print(report.report_data)
 >5    0.00580  20190515  上证指数
 
 ### Change Logs
+
+### 0.2.3 2021/08/13
+
+- 更新Cookies机制；
+- 新增分时数据接口。
 
 ### 0.2.2 2021/04/08
 

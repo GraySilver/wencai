@@ -1,10 +1,8 @@
 # -*- coding:utf-8 -*-
 import logging
-import datetime as dt
-from time import sleep
 import pandas as pd
 from wencai.core.cons import WENCAI_CRAWLER_URL, WENCAI_HEADERS
-from wencai.core.content import BackTest, YieldBackTest, EventBackTest
+from wencai.core.content import BackTest, YieldBackTest, EventBackTest, LastJs
 from wencai.core.cookies import WencaiCookie
 from wencai.core.session import Session
 
@@ -17,10 +15,10 @@ class Wencai(object):
         format='%(asctime)s [%(levelname)s] %(message)s',
     )
 
-    def __init__(self, execute_path=None, cn_col=False):
-        self.execute_path = execute_path
-        self.obj_cookie = WencaiCookie(execute_path=execute_path)
+    def __init__(self, cn_col=False):
+        self.cookies = WencaiCookie()
         self.cn_col = cn_col
+        self.session = Session()
 
     def backtest(self, query, start_date, end_date, period, benchmark):
         payload = {
@@ -30,12 +28,12 @@ class Wencai(object):
             "period": period,
             "benchmark": benchmark
         }
-        henxin_v = self.obj_cookie.getHexinVByJson(source='backtest')
-        session = Session(update_headers=WENCAI_HEADERS['backtest'], hexin_v=henxin_v)
-        r = session.post(WENCAI_CRAWLER_URL['backtest'], data=payload)
+
+        r = self.session.post_result(source='backtest', url=WENCAI_CRAWLER_URL['backtest'], data=payload)
         if r.status_code == 200:
-            return BackTest(content=r.json(), cn_col=self.cn_col, execute_path=self.execute_path,
-                            start_date=start_date, end_date=end_date)
+            print(r.json())
+            return BackTest(content=r.json(), cn_col=self.cn_col, start_date=start_date, end_date=end_date,
+                            session=self.session)
 
         else:
             raise Exception(r.content.decode('utf-8'))
@@ -53,27 +51,34 @@ class Wencai(object):
             "fall_income": fall_income,
             "day_buy_stock_num": day_buy_stock_num
         }
-        henxin_v = self.obj_cookie.getHexinVByJson(source='backtest')
-        session = Session(update_headers=WENCAI_HEADERS['backtest'], hexin_v=henxin_v)
-        r = session.post(WENCAI_CRAWLER_URL['yieldbacktest'], data=payload)
+        r = self.session.post_result(WENCAI_CRAWLER_URL['yieldbacktest'], data=payload,
+                                     add_headers=WENCAI_HEADERS['backtest'], source='backtest')
         if r.status_code == 200:
-            return YieldBackTest(content=r.json(), cn_col=self.cn_col, query=query, hexin_v=henxin_v,
-                                 execute_path=self.execute_path,start_date=start_date,end_date=end_date)
+            return YieldBackTest(content=r.json(), cn_col=self.cn_col, query=query,
+                                 start_date=start_date, end_date=end_date,
+                                 session=self.session)
         else:
             raise Exception(r.content.decode('utf-8'))
 
-    def eventbacktest(self,query,index_code,period,start_date,end_date):
+    def eventbacktest(self, query, index_code, period, start_date, end_date):
         payload = {
             "query": query,
             "start_date": start_date,
             "end_date": end_date,
             "period": period,
-            "index_code":index_code
+            "index_code": index_code
         }
-        henxin_v = self.obj_cookie.getHexinVByJson(source='backtest')
-        session = Session(update_headers=WENCAI_HEADERS['backtest'], hexin_v=henxin_v)
-        r = session.post(WENCAI_CRAWLER_URL['eventbacktest'], data=payload)
+
+        r = self.session.post_result(WENCAI_CRAWLER_URL['eventbacktest'], data=payload, source='eventbacktest')
         if r.status_code == 200:
-            return EventBackTest(content=r.json(),cn_col=self.cn_col)
+            return EventBackTest(content=r.json(), cn_col=self.cn_col)
+        else:
+            raise Exception(r.content.decode('utf-8'))
+
+    def lastjs(self, code):
+        r = self.session.get_result(WENCAI_CRAWLER_URL['lastjs'].format(code), source='lastjs',
+                                    add_headers=WENCAI_HEADERS['lastjs'])
+        if r.status_code == 200:
+            return LastJs(content=r.text, code=code).get_data
         else:
             raise Exception(r.content.decode('utf-8'))

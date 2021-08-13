@@ -1,7 +1,6 @@
 import re
 import json
 import pandas as pd
-from wencai.core.session import Session
 from wencai.core.cons import WENCAI_CRAWLER_URL
 
 pd.set_option('display.max_rows', 2000)
@@ -9,14 +8,14 @@ pd.set_option('display.max_rows', 2000)
 
 class BackTest:
 
-    def __init__(self, content, cn_col, execute_path, start_date, end_date):
+    def __init__(self, content, cn_col, start_date, end_date, session):
         if content['errorcode'] == 1:
             raise ValueError(content['errormsg'])
         self.content = content['result']
         self.cn_col = cn_col
-        self.execute_path = execute_path
         self.start_date = start_date
         self.end_date = end_date
+        self.session = session
 
     @property
     def backtest_data(self):
@@ -70,7 +69,7 @@ class BackTest:
                                                           start_date=start_date,
                                                           end_date=str(end_date),
                                                           period=str(period))
-        context = Session().get_driver(url, execute_path=self.execute_path)
+        context = self.session.get_result(url=url, source='history_detail').text
         context = re.findall('{"result":(.*?),"errorcode":0,"errormsg":""}', context)[0]
         data = json.loads(context)
         data = pd.DataFrame().from_dict(data)
@@ -90,14 +89,13 @@ class BackTest:
 
 
 class YieldBackTest:
-    def __init__(self, content, cn_col, query, hexin_v, execute_path, start_date, end_date):
+    def __init__(self, content, cn_col, query, start_date, end_date, session):
         self.content = content['result']
         self.cn_col = cn_col
         self.query = query
-        self.hexin_v = hexin_v
-        self.execute_path = execute_path
         self.start_date = start_date
         self.end_date = end_date
+        self.session =session
 
     @property
     def profit_data(self):
@@ -161,7 +159,7 @@ class YieldBackTest:
 
     def history_pick(self, trade_date, hold_num=1):
         url = WENCAI_CRAWLER_URL['history_pick'].format(trade_date=trade_date, hold_num=hold_num, query=self.query)
-        context = Session().get_driver(url, execute_path=self.execute_path)
+        context = self.session.get_result(url, source='history_detail').text
         context = re.findall('{"result":(.*?),"errorcode":0,"errormsg":""}', context)[0]
         data = json.loads(context)['stocks']
         data = pd.DataFrame().from_dict(data)
@@ -190,7 +188,7 @@ class YieldBackTest:
 
         url = WENCAI_CRAWLER_URL['history_detail'].format(backtest_id=self.content['id'], start_date=start_date,
                                                           end_date=end_date, period=period)
-        context = Session().get_driver(url, execute_path=self.execute_path)
+        context = self.session.get_result(url, source='history_detail').text
         context = re.findall('{"result":(.*?),"errorcode":0,"errormsg":""}', context)[0]
         data = json.loads(context)
         data = pd.DataFrame().from_dict(data)
@@ -239,4 +237,17 @@ class EventBackTest:
 
         if self.cn_col:
             data = {_[k]: v for k, v in data.items()}
+        return data
+
+class LastJs:
+    def __init__(self, content, code):
+        index_str = 'quotebridge_v2_time_{}_last'.format(code)
+        content = re.findall( index_str + '(.*)', content)[0].replace('(','').replace(')','')
+        self.content = json.loads(content)[code]
+
+    @property
+    def get_data(self):
+        data = self.content['data']
+        data = [i.split(',') for i in data.split(';')]
+        data = pd.DataFrame().from_records(data)
         return data

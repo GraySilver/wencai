@@ -22,5 +22,6 @@ __pycache__/
 wencai.egg-info/
 dist/
 build/
+cookies.json
 
 

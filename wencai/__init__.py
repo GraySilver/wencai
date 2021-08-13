@@ -6,4 +6,5 @@ __version__ = '0.1.1'
 from wencai.core.event import (get_scrape_report,
                                set_variable,
                                get_strategy,
-                               get_event_evaluate)
+                               get_event_evaluate,
+                               get_lastjs)
