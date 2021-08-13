@@ -23,11 +23,6 @@ wencai==0.2.3
 - beautifulsoup4>=4.5.1
 - PyExecJS>=1.5.1
 
-### Special
-问财API目前需要接入chrome和chromedriver配合使用，请下载[chrome](https://www.google.cn/intl/zh-CN/chrome/)和对应的[chromedriver](https://npm.taobao.org/mirrors/chromedriver/)版本，尽量更新新版本确保可以使用。
-
-*目前我测试用的chrome_driver对应的是chrome版本是87.0.4280.88，各位按自己实际情况配合chrome和chromedriver版本*
-
 ### Installation
 
 - 方式1：pip install wencai
