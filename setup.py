@@ -10,7 +10,7 @@ else:
 
 setup(
     name='wencai',
-    version='0.2.5',
+    version='0.2.6',
     author='allen yang',
     author_email='allenyzx@163.com',
     url='https://upload.pypi.org/allenyzx/',
