@@ -18,7 +18,7 @@ WENCAI_CRAWLER_URL = {
     "history_pick": 'http://backtest.10jqka.com.cn/tradebacktest/historypick?query={query}&hold_num={hold_num}&trade_date={trade_date}',
     'eventbacktest': 'http://backtest.10jqka.com.cn/eventbacktest/backtest',
     'lastjs':'http://d.10jqka.com.cn/v2/time/{}/last.js',
-    'search': 'http://x.10jqka.com.cn/unifiedwap/unified-wap/v2/result/get-robot-data'
+    'search': 'http://www.iwencai.com/unifiedwap/unified-wap/v2/result/get-robot-data'
 
 }
 
