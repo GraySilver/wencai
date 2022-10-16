@@ -82,23 +82,26 @@ class Wencai(object):
         else:
             raise Exception(r.content.decode('utf-8'))
 
-    def search(self, query_string):
+    def search(self, query_string, perpage=50):
 
         payload = {
             "question": query_string,
             "page": 1,
-            "perpage": 50,
-            "log_info": '{"input_type": "typewrite"}',
+            "perpage": perpage,
+            "log_info": '{"input_type": "click"}',
             "source": "Ths_iwencai_Xuangu",
             "version": 2.0,
-            "secondary_intent": "",
+            "secondary_intent": "stock",
             "query_area": "",
             "block_list": "",
             "add_info": '{"urp": {"scene": 1, "company": 1, "business": 1}, "contentType": "json", "searchInfo": true}'
         }
-
+        headers = {
+            'Content-Type': "application/json"
+        }
         r = self.session.post_result(url=WENCAI_CRAWLER_URL['search'],
-                                     data=payload, force_cookies=True)
+                                     add_headers=headers, json=payload, force_cookies=True)
+
         result = r.json()['data']['answer'][0]['txt'][0]['content']['components'][0]['data']['datas']
 
         def _re_str(x: str):
